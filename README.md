@@ -1,10 +1,50 @@
 # Private-Chat-Room
 
-hola
+A real-time private chat room application built with Node.js, Express, and Socket.io.
 
-跳樓大拍賣，一般指商家以超低價銷售商品，形容價格便宜到令人驚訝的地步，通常是清倉或虧本促銷的活動。這樣的標語常被用來吸引顧客，表達商家急需出售商品的迫切性，甚至「賠本賣吆喝」的形象。
+## Features
 
-需要什麼創意或進一步的應用建議嗎？例如為活動設計標語或廣告文案？
+- Real-time messaging with WebSocket
+- User join/leave notifications
+- Active user count display
+- Clean and responsive UI
+- Username-based identification
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ewdlop/Private-Chat-Room.git
+cd Private-Chat-Room
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+## Usage
+
+1. Start the server:
+```bash
+npm start
+```
+
+2. Open your browser and navigate to:
+```
+http://localhost:3000
+```
+
+3. Enter a username and start chatting!
+
+## How to Use
+
+- Enter your desired username on the login screen
+- Click "Join Chat" or press Enter to join the chat room
+- Type your message in the input field at the bottom
+- Press Enter or click "Send" to send your message
+- See other users join and leave in real-time
+- The user count shows how many people are currently in the chat
 
 
 # MusicXML(one of my team lead told me something dramatic about XML)
