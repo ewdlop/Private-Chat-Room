@@ -15,25 +15,53 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Store active users
 const users = new Map();
 
+// Input validation and sanitization
+function sanitizeUsername(username) {
+  if (typeof username !== 'string') return null;
+  const sanitized = username.trim().slice(0, 20);
+  if (sanitized.length === 0) return null;
+  return sanitized.replace(/[<>]/g, '');
+}
+
+function sanitizeMessage(text) {
+  if (typeof text !== 'string') return null;
+  const sanitized = text.trim().slice(0, 500);
+  if (sanitized.length === 0) return null;
+  return sanitized;
+}
+
 io.on('connection', (socket) => {
   console.log('New user connected:', socket.id);
 
   // Handle user joining
   socket.on('join', (username) => {
-    users.set(socket.id, username);
+    const sanitizedUsername = sanitizeUsername(username);
+    if (!sanitizedUsername) {
+      socket.emit('error', 'Invalid username');
+      return;
+    }
+    users.set(socket.id, sanitizedUsername);
     io.emit('userJoined', {
-      username,
+      username: sanitizedUsername,
       userCount: users.size
     });
-    console.log(`${username} joined the chat`);
+    console.log(`${sanitizedUsername} joined the chat`);
   });
 
   // Handle new messages
   socket.on('message', (data) => {
-    const username = users.get(socket.id) || 'Anonymous';
+    const username = users.get(socket.id);
+    if (!username) {
+      socket.emit('error', 'Please join the chat first');
+      return;
+    }
+    const sanitizedText = sanitizeMessage(data.text);
+    if (!sanitizedText) {
+      return;
+    }
     io.emit('message', {
       username,
-      text: data.text,
+      text: sanitizedText,
       timestamp: new Date().toISOString()
     });
   });

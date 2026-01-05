@@ -45,6 +45,11 @@ function setupSocketListeners() {
     addSystemMessage(`${data.username} left the chat`);
     updateUserCount(data.userCount);
   });
+
+  // Handle errors
+  socket.on('error', (message) => {
+    alert(message);
+  });
 }
 
 function sendMessage() {
